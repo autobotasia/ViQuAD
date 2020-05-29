@@ -1,28 +1,19 @@
 import sqlite3
 
 try:
-    sqliteConnection = sqlite3.connect('./database/database_train.db')
-    sqlite_create_table_query = '''CREATE TABLE dataset (
+    sqliteConnection = sqlite3.connect('./database/database_train_edit.db')
+    sqlite_create_table_query = '''CREATE TABLE SqliteDb_developers (
                                 id INTEGER PRIMARY KEY,
                                 question TEXT NOT NULL,
                                 context TEXT NOT NULL,
                                 answer TEXT,
                                 answer_start INTEGER,
                                 c_id INTEGER,
-                                impossible TEXT)'''
-    sqlite_create_table_query_correct = '''CREATE TABLE dataset_correction (
-                                dataset_id INTEGER PRIMARY KEY,
-                                question TEXT NOT NULL,
-                                context TEXT NOT NULL,
-                                answer TEXT,
-                                answer_start INTEGER,
-                                c_id INTEGER)'''
+                                impossible TEXT);'''
 
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
-    #cursor.execute(sqlite_create_table_query)
-    #sqliteConnection.commit()
-    cursor.execute(sqlite_create_table_query_correct)
+    cursor.execute(sqlite_create_table_query)
     sqliteConnection.commit()
     print("SQLite table created")
 
