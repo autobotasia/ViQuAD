@@ -53,7 +53,7 @@ def randd():
         c_id = int(records[i][5])
         impossible= records[i][6]
         cursor.close()
-        if str(records[i][3]) == 'None':
+        if str(records[i][3]) == 'nan':
             answer = ''
         else:
              answer = records[i][3]
