@@ -31,5 +31,5 @@ def insertVaribleIntoTable(id ,question, context, answer, answer_start, c_id, im
             if i%5000 == 0:
                 print('Completed',i,'row')
 for i in range(1,len(data['id'])+1):
-    insertVaribleIntoTable(i,data['câu hỏi'][i-1],data['bối cảnh'][i-1],str(data['bản văn'][i-1]),data['answer_start'][i-1],data['c_id'][i-1],str(data['is_impossible'][i-1]))
+    insertVaribleIntoTable(i,data['câu hỏi'][i-1],data['bối cảnh'][i-1],data['bản văn'][i-1],data['answer_start'][i-1],data['c_id'][i-1],str(data['is_impossible'][i-1]))
    
