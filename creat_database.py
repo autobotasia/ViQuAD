@@ -1,7 +1,7 @@
 import sqlite3
 
 try:
-    sqliteConnection = sqlite3.connect('./database/database_train1.db')
+    sqliteConnection = sqlite3.connect('./database/database_train.db')
     sqlite_create_table_query = '''CREATE TABLE dataset (
                                 id INTEGER PRIMARY KEY,
                                 question TEXT NOT NULL,
