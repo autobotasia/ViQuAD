@@ -13,16 +13,17 @@
     {% if datatrain %}
     <p class="data_edit"><strong><h3>DATA:</h3></strong> {{ datatrain|safe }}
         {% endif %}
-
+    
     <form action="" method="post">
+        <p></p>
         <div class="form-group">
-            <textarea name="question_edit" style="width:90%;" cols="200" rows="2" placeholder="Question Edit Here" >{{question}}</textarea>
-        </div>
-        <div class="form-group">
+            <p><strong>Edit Context:</strong></p>
             <textarea name="context_edit" style="width:90%;" cols="200" rows="10" placeholder="Context Edit Here">{{context}}</textarea>
         </div>
+        
         <div class="form-group">
-            <textarea name="answer_edit" style="width:90%;" cols="200" rows="2" placeholder="Answer Edit Here (If None please not edit)">{{answer}}</textarea>
+            <p><strong>Edit Answer:</strong></p>
+            <textarea name="answer_edit" style="width:90%;" cols="200" rows="2" placeholder="Answer Edit Here">{{answer}}</textarea>
         </div>
         <input class="btn btn-success" type="submit" value="SUBMIT">
     </form>

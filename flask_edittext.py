@@ -2,11 +2,11 @@ import sqlite3
 from flask import g,Flask,request,render_template,redirect,url_for
 import random
 app = Flask(__name__)
-a = 0 
 id_edit = 0
 c_id = 0
 impossible =''
 answer_start = 0
+question =''
 DATABASE = 'database/database_train.db'
 def get_db():
     db = getattr(g, '_database', None)
@@ -33,6 +33,7 @@ def randd():
     global c_id
     global impossible
     global answer_start
+    global question
     if request.method == 'GET':
         cursor = get_db().cursor()
         sqlite_select_query = """SELECT * from dataset"""
@@ -47,24 +48,24 @@ def randd():
             check.append(ids_edit[j][0])
         while records[i][0] in check:
             i = random.randint(0,len(records)-1)
-        datatrain ='<br><strong>ID:</strong> '+str(records[i][0]) +" <br> <strong>Question:</strong> " + str(records[i][1]) +'</br><strong>Context:</strong> ' + str(records[i][2]) + '</br><strong>Answer:</strong> ' + str(records[i][3])
+        if str(records[i][3]) == 'nan':
+            answer = ''
+        else:
+             answer = str(records[i][3])
+        datatrain ='<br><strong>ID:</strong> '+str(records[i][0]) +" <br> <strong>Question: </strong> " + str(records[i][1]) +'</br><strong>Context:</strong> ' + str(records[i][2]) + '</br><strong>Answer:</strong> ' + answer
         id_edit = int(records[i][0])
         answer_start = records[i][4]
         c_id = int(records[i][5])
         impossible= records[i][6]
         cursor.close()
-        if str(records[i][3]) == 'nan':
-            answer = ''
-        else:
-             answer = records[i][3]
+        
     ####Edit datatrain####
 
-        question_edit = None
+        question = records[i][1]
         answer_edit = None
         context_edit = None
 
     if request.method == 'POST':
-        question_edit = request.form['question_edit']
         answer_edit = request.form['answer_edit']
         context_edit =request.form['context_edit']
         db= get_db()
@@ -72,13 +73,13 @@ def randd():
         sqlite_insert_with_param = """INSERT INTO dataset_correction
                           (dataset_id ,question, context, answer, answer_start, c_id) 
                           VALUES (?, ?, ?, ?, ?, ?)"""
-        data_tuple = (id_edit,question_edit,context_edit,answer_edit,answer_start,c_id)
+        data_tuple = (id_edit,question,context_edit,answer_edit,answer_start,c_id)
         cursor.execute(sqlite_insert_with_param, data_tuple)
         db.commit()
         cursor.close()
         return redirect(url_for('tks'))
-    return render_template('edit_text.html',datatrain = datatrain, question = records[i][1], context=records[i][2], answer = answer)
+    return render_template('edit_text.html',datatrain = datatrain, context=records[i][2], answer = answer)
     
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port = 6006)
