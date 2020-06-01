@@ -1,7 +1,7 @@
 import sqlite3
 
 try:
-    sqliteConnection = sqlite3.connect('./database/database_train.db')
+    sqliteConnection = sqlite3.connect('./database/database_train1.db')
     sqlite_create_table_query = '''CREATE TABLE dataset (
                                 id INTEGER PRIMARY KEY,
                                 question TEXT NOT NULL,
@@ -20,7 +20,7 @@ try:
 
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
-    #cursor.execute(sqlite_create_table_query)
+    cursor.execute(sqlite_create_table_query)
     #sqliteConnection.commit()
     cursor.execute(sqlite_create_table_query_correct)
     sqliteConnection.commit()
