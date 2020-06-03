@@ -17,7 +17,7 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-def find_text(answer_,context_):
+def find_text(answer_,context_,language_):
     tam = [0,len(context_)]
     context_new = ''
     answer_new = answer_[0].lower() + answer_[1:len(answer_)]
@@ -33,7 +33,10 @@ def find_text(answer_,context_):
             new1 = match.start()
             new2 = match.end()
             context_new += context_[0:match.start()]
-            context_new += '<strong>' + context_[match.start():match.end()] + '</strong>'
+            if language_ == 'en':
+                context_new += '<strong>' + context_[match.start():match.end()] + '</strong>'
+            else:
+                context_new += context_[match.start():match.end()]
             tam.pop(0)
             tam.pop(0)
             tam.append(match.start())
@@ -45,7 +48,10 @@ def find_text(answer_,context_):
             tam.append(new1)
             tam.append(new2)
             context_new += context_[tam[1]:new1]
-            context_new += '<strong>' + context_[new1:new2] + '</strong>'
+            if language_ == 'en':
+                context_new += '<strong>' + context_[match.start():match.end()] + '</strong>'
+            else:
+                context_new += context_[match.start():match.end()]
             tam.pop(0)
             tam.pop(0)
     context_new += context_[new2:len(context_)]
@@ -110,12 +116,12 @@ def randd():
         question = records[i][1]
         if answer!= '' and re.search(answer,context) != None:
             answer_rand = answer
-            context_new = find_text(answer,context)
+            context_new = find_text(answer,context,'vi')
         else:
             answer_rand = records[i][2][30:40]
 
         if str(answer_eng) !='' and re.search(answer_eng,context_eng) != None:
-            context_eng = find_text(answer_eng,context_eng)
+            context_eng = find_text(answer_eng,context_eng,'en')
         id_edit = int(records[i][0])
         answer_start = records[i][4]
         c_id = int(records[i][5])

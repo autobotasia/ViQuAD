@@ -106,14 +106,12 @@
 
                 //start dragging
                 $(affectedText).on('mousedown', '.sel-handle', function (event) {
-                    event.stopPropagation();
                     draggingHandle = $(this);
                     isDragging = true;
                 });
 
                 //end the dragging
                 $(document).mouseup(function (event) {
-                    event.stopPropagation()
                     isDragging = false;
                 });
 
@@ -148,6 +146,7 @@
         $(document).ready(function () {
             $(".full-text").selectBars('.full-text', edits, function () {
                 var data = $('.full-text').attr('data-selected');
+                console.log(data, 'data');
                 document.getElementById('data').value = data;
                 $('.selected-text p').text();
             });
