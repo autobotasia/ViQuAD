@@ -68,9 +68,6 @@ verbose = 0
 train = squad_json_to_dataframe_train(input_file_path=input_file_path,record_path=record_path)
 #df=pd.DataFrame(dev,columns=['is_impossible'])
 #df.to_csv('train_imposs_dev')
-df = pd.DataFrame(train,columns=['question','context','answers','c_id','question'])
-for i in range(0,19000,1000):
-    print(i)
-    da = df[df['c_id']>=i][df['c_id']<(i+1000)]
-    st = 'train_'+str(i)+'.csv'
-    da.to_csv(st)
+df = pd.DataFrame(train,columns=['question','context','text','answer_start','c_id','is_impossible'])
+df.to_csv('dataset_train.csv')
+
