@@ -45,7 +45,7 @@ Interface:
 - First, Check content of `Context` and collate with `Context_Eng`. If content reasionable, please not edit; else Edit at `Edit_ConText`
 
 
-- Second, Use the slider bar to change the content 
+- Second, Use the slider bar (or edit directly at textarea of `Edit_Answer` )to change the content `Answer`
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
 
@@ -57,4 +57,11 @@ Interface:
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
 
-- 
+- Finally, click `Submit` to save `database_train.db` (table dataset_correction)
+
+### Note: 
+
+- If do not want save `Edit Answer` to the database, tick `No update answer for database`.
+
+
+
