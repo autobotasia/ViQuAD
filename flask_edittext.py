@@ -104,7 +104,7 @@ def randd():
         context_eng = records_eng[i][2]
         answer_eng = records_eng[i][3]
 
-        if str(records[i][3]) == 'nan':
+        if str(records[i][3]) == 'None':
             answer = ''
             answer_eng =''
         else:
