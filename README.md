@@ -30,9 +30,9 @@ Finally, Use `flask_edittext.py` to Edit data wrong
 
 ## Use Tool
 
-Purpose: edit data (Here is: Context and Quesion) correct if translated wrong or not reasonable
+Purpose: edit data (Here is: `Context` and `Quesion`) correct if translated wrong or not reasonable
 
-After run flask_edittext.py
+After run `flask_edittext.py`
 
 Interface:
 
@@ -40,6 +40,22 @@ Interface:
 
 ### Include:
 
-- Question, Context, Answer: data has been translated from Question_Eng, Context_Eng, Answer_Eng
+- `Question`, `Context`, `Answer`: data has been translated from `Question_Eng`, `Context_Eng`, `Answer_Eng`
 
+- First, Check content of `Context` and collate with `Context_Eng`. If content reasionable, please not edit; else Edit at `Edit_ConText`
 
+<img width="964" src:"https://github.com/autobotasia/ViQuAD/blob/master/images/context.png?raw=true">
+
+- Second, Use the slider bar to change the content and save at textarea of `Edit Answer`, collate with the answers highlighted in `Context_Eng`:
+
+https://github.com/autobotasia/ViQuAD/blob/master/images/context.png?raw=true
+
+<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
+
+<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
+
+<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_2.PNG?raw=true">
+
+<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_2.PNG?raw=true">
+
+- 
