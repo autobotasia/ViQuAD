@@ -37,37 +37,33 @@ def insertVaribleIntoTable(id ,question, context, answer, answer_start, c_id, im
             # if i%5000 == 0:
             #     print('Completed',i,'row')
 
-#insert file translate:
-#for i in range(1,len(data['id'])+1):
-#    insertVaribleIntoTable(i,data['câu hỏi'][i-1],data['bối cảnh'][i-1],data['bản văn'][i-1],data['answer_start'][i-1],data['c_id'][i-1],str(data['is_impossible'][i-1]))
-print(data['answer'][76092])
-i = 76093
-insertVaribleIntoTable(i,data['question'][i-1],data['context'][i-1],data['answer'][i-1],data['answer_start'][i-1],int(data['c_id'][i-1]),data['impossible'][i-1])
-#insert file english:
-# for i in range(1,len(data['id'])+1):
-#     try:
-#     #     if data['impossible'][i-1] == 0:
-#     #         data_imp = 'False'
-#     #     else:
-#     #         data_imp = 'True'
-#         if str(data['answer'][i-1]) == 'nan' and data['impossible'][i-1] == 'TRUE':
-#             data_ans = ''
-#         else:
-#             data_ans = str(data['answer'][i-1])
-#         insertVaribleIntoTable(i,data['question'][i-1],data['context'][i-1],data_ans,data['answer_start'][i-1],int(data['c_id'][i-1]),data['impossible'][i-1])
+
+#insert file english or trans:
+for i in range(1,len(data['id'])+1):
+    try:
+    #     if data['impossible'][i-1] == 0:
+    #         data_imp = 'False'
+    #     else:
+    #         data_imp = 'True'
+        if str(data['answer'][i-1]) == 'nan' and data['impossible'][i-1] == 'TRUE':
+            data_ans = ''
+        else:
+            data_ans = str(data['answer'][i-1])
+        insertVaribleIntoTable(i,data['question'][i-1],data['context'][i-1],data_ans,data['answer_start'][i-1],int(data['c_id'][i-1]),data['impossible'][i-1])
     
-#     except ValueError as error:
-#         print('ValueError:',error ,'and Error at:', i)
-#         a = 0
-#         while(True):
-#             if a == 0:
-#                 print('Ctrl+C to exit')
-#                 a += 1
-#     except TypeError as error:
-#         print('TypeError:',error ,'and Error at:', i)
-#         a = 0
-#         while(True):
-#             if a == 0:
-#                 print('Ctrl+C to exit')
-#                 a += 1
+    except ValueError as error:
+        print('ValueError:',error ,'and Error at:', i)
+        a = 0
+        while(True):
+            if a == 0:
+                print('Ctrl+C to exit')
+                a += 1
+                
+    except TypeError as error:
+        print('TypeError:',error ,'and Error at:', i)
+        a = 0
+        while(True):
+            if a == 0:
+                print('Ctrl+C to exit')
+                a += 1
     

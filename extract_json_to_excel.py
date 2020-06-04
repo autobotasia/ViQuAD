@@ -69,5 +69,5 @@ train = squad_json_to_dataframe_train(input_file_path=input_file_path,record_pat
 #df=pd.DataFrame(dev,columns=['is_impossible'])
 #df.to_csv('train_imposs_dev')
 df = pd.DataFrame(train,columns=['question','context','text','answer_start','c_id','is_impossible'])
-df.to_csv('dataset_train.csv')
+df.to_excel('dataset_train.xlsx')
 
