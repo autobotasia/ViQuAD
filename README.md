@@ -49,7 +49,7 @@ Interface:
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
 
-- And save at textarea of `Edit Answer`
+- And content is changed display at textarea of `Edit Answer`
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
 
