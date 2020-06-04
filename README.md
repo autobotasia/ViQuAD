@@ -53,7 +53,7 @@ Interface:
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
 
-- collate with the answers highlighted in `Context_Eng`:
+- Collate with the answers highlighted in `Context_Eng` to ensure accuracy:
 
 <img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
 
