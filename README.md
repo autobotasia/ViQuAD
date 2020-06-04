@@ -29,7 +29,17 @@ Insert data from excel (translated) to database: `Insert_excel_to_database.py`
 Finally, Use `flask_edittext.py` to Edit data wrong
 
 ## Use Tool
-After run flask_edittext.py, we will edit data to correct
+
+Purpose: edit data (Here is: Context and Quesion) correct if translated wrong or not reasonable
+
+After run flask_edittext.py
+
 Interface:
+
 <img width="964" alt="interface" src="https://raw.githubusercontent.com/autobotasia/ViQuAD/master/images/giaodien.png">
+
+### Include:
+
+- Question, Context, Answer: data has been translated from Question_Eng, Context_Eng, Answer_Eng
+
 
