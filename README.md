@@ -48,7 +48,7 @@ Interface:
 
 - Second, Use the slider bar to change the content and save at textarea of `Edit Answer`, collate with the answers highlighted in `Context_Eng`:
 
- + Original:
+ ++ Original:
 
 <img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
 
@@ -56,7 +56,7 @@ Interface:
 
 <img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
 
-+ Later:
+++ Later:
 
 <img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_2.PNG?raw=true">
 
