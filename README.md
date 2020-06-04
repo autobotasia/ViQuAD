@@ -44,7 +44,7 @@ Interface:
 
 - First, Check content of `Context` and collate with `Context_Eng`. If content reasionable, please not edit; else Edit at `Edit_ConText`
 
-<img width="964" src:"https://github.com/autobotasia/ViQuAD/blob/master/images/context.png?raw=true">
+<img width="964" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context.png?raw=true">
 
 - Second, Use the slider bar to change the content and save at textarea of `Edit Answer`, collate with the answers highlighted in `Context_Eng`:
 
