@@ -135,6 +135,7 @@ def randd():
         context_edit = None
 
     if request.method == 'POST':
+        question_edit = request.form['question_edit']
         answer_edit = request.form['answer_edit']
         context_edit =request.form['context_edit']
         db= get_db()
@@ -146,7 +147,7 @@ def randd():
         if request.form.get('check_answer'):
             answer_edit =''
         
-        data_tuple = (id_edit,question,context_edit,answer_edit,answer_start,c_id)
+        data_tuple = (id_edit,question_edit,context_edit,answer_edit,answer_start,c_id)
         
         cursor.execute(sqlite_insert_with_param, data_tuple)
         db.commit()
