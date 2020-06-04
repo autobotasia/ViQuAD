@@ -30,9 +30,9 @@ Finally, Use `flask_edittext.py` to Edit data wrong
 
 ## Use Tool
 
-Purpose: edit data (Here is: Context and Quesion) correct if translated wrong or not reasonable
+Purpose: edit data (Here is: `Context` and `Quesion`) correct if translated wrong or not reasonable
 
-After run flask_edittext.py
+After run `flask_edittext.py`
 
 Interface:
 
@@ -40,6 +40,28 @@ Interface:
 
 ### Include:
 
-- Question, Context, Answer: data has been translated from Question_Eng, Context_Eng, Answer_Eng
+- `Question`, `Context`, `Answer`: data has been translated from `Question_Eng`, `Context_Eng`, `Answer_Eng`
+
+- First, Check content of `Context` and collate with `Context_Eng`. If content reasionable, please not edit; else Edit at `Edit_ConText`
+
+
+- Second, Use the slider bar (or edit directly at textarea of `Edit_Answer` )to change the content `Answer`
+
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
+
+- And content is changed display at textarea of `Edit Answer`
+
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
+
+- Collate with the answers highlighted in `Context_Eng` to ensure accuracy:
+
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
+
+- Finally, click `Submit` to save `database_train.db` (table dataset_correction)
+
+### Note: 
+
+- If do not want save `Edit Answer` to the database, tick `No update answer for database`.
+
 
 
