@@ -27,3 +27,9 @@ Creat database in the format: (id, question, context, answer, answer_start, c_di
 Insert data from excel (translated) to database: `Insert_excel_to_database.py`
 
 Finally, Use `flask_edittext.py` to Edit data wrong
+
+## Use Tool
+After run flask_edittext.py, we will edit data to correct
+Interface:
+<img width="964" alt="interface" src="https://raw.githubusercontent.com/autobotasia/ViQuAD/master/images/giaodien.png">
+
