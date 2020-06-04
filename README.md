@@ -44,22 +44,17 @@ Interface:
 
 - First, Check content of `Context` and collate with `Context_Eng`. If content reasionable, please not edit; else Edit at `Edit_ConText`
 
-<img width="964" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context.png?raw=true">
 
-- Second, Use the slider bar to change the content and save at textarea of `Edit Answer`, collate with the answers highlighted in `Context_Eng`:
+- Second, Use the slider bar to change the content 
 
- ++ Original:
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
 
-<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_1.PNG?raw=true">
+- And save at textarea of `Edit Answer`
 
-<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_1.PNG?raw=true">
 
-<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
+- collate with the answers highlighted in `Context_Eng`:
 
-++ Later:
-
-<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/silde_bar_2.PNG?raw=true">
-
-<img width="964" alt="change" src="https://github.com/autobotasia/ViQuAD/blob/master/images/edit_answer_2.PNG?raw=true">
+<img width="964" alt="interface" src="https://github.com/autobotasia/ViQuAD/blob/master/images/context_eng_1.png?raw=true">
 
 - 
