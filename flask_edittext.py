@@ -65,7 +65,7 @@ def close_connection(exception):
 
 @app.route('/')
 def index():
-    return 'Hello'
+    return render_template('index.html')
 @app.route('/thanks')
 def tks():
     return render_template('thanks.html')
@@ -121,7 +121,9 @@ def randd():
             answer_rand = records[i][2][30:40]
 
         if str(answer_eng) !='' and re.search(answer_eng,context_eng) != None:
-            context_eng = find_text(answer_eng,context_eng,'en')
+            context_eng_new = find_text(answer_eng,context_eng,'en')
+        else:
+            context_eng_new = context_eng
         id_edit = int(records[i][0])
         answer_start = records[i][4]
         c_id = int(records[i][5])
@@ -153,8 +155,8 @@ def randd():
         db.commit()
         cursor.close()
         return redirect(url_for('tks'))
-    return render_template('edit_text.html',id_edit = id_edit, edits = answer_rand ,question = question,context = context ,context_new=context_new, answer = answer,question_eng = question_eng,context_eng=context_eng,answer_eng=answer_eng)
+    return render_template('edit_text.html',id_edit = id_edit, edits = answer_rand ,question = question,context = context ,context_new=context_new, answer = answer,question_eng = question_eng,context_eng=context_eng_new,answer_eng=answer_eng)
     
 
 if __name__ == "__main__":
-    app.run(port = 6006)
+    app.run(port=6006)
