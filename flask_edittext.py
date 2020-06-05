@@ -130,6 +130,7 @@ def randd():
         impossible= records[i][6]
         cursor.close()
         
+
     ####Edit datatrain####
 
         
