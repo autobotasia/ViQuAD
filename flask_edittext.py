@@ -17,45 +17,7 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-def find_text(answer_,context_,language_):
-    tam = [0,len(context_)]
-    context_new = ''
-    answer_new = answer_[0].lower() + answer_[1:len(answer_)]
-    if re.search(answer_new,context_) != None:
-        answer_ = answer_new
-    else:
-        answer_new = answer_[0].upper() + answer_[1:len(answer_)]
-        if re.search(answer_new,context_) != None:
-            answer_ = answer_new
-    for find in range(len(re.findall(answer_,context_))):
-        if(find == 0):
-            match = re.search(answer_,context_[tam[0]:len(context_)])
-            new1 = match.start()
-            new2 = match.end()
-            context_new += context_[0:match.start()]
-            if language_ == 'en':
-                context_new += '<strong>' + context_[match.start():match.end()] + '</strong>'
-            else:
-                context_new += context_[match.start():match.end()]
-            tam.pop(0)
-            tam.pop(0)
-            tam.append(match.start())
-            tam.append(match.end())
-        else:
-            match = re.search(answer_,context_[tam[1]:len(context_)])
-            new1 = tam[1]+match.start()
-            new2 = match.end() + tam[1]
-            tam.append(new1)
-            tam.append(new2)
-            context_new += context_[tam[1]:new1]
-            if language_ == 'en':
-                context_new += '<strong>' + context_[match.start():match.end()] + '</strong>'
-            else:
-                context_new += context_[match.start():match.end()]
-            tam.pop(0)
-            tam.pop(0)
-    context_new += context_[new2:len(context_)]
-    return context_new
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -116,12 +78,12 @@ def randd():
         question = records[i][1]
         if answer!= '' and re.search(answer,context) != None:
             answer_rand = answer
-            context_new = find_text(answer,context,'vi')
         else:
             answer_rand = records[i][2][30:40]
 
         if str(answer_eng) !='' and re.search(answer_eng,context_eng) != None:
-            context_eng_new = find_text(answer_eng,context_eng,'en')
+            answer_new = '<strong>'+answer_eng+'</strong>'
+            context_eng_new = re.sub(answer_eng,answer_new ,context_eng)
         else:
             context_eng_new = context_eng
         id_edit = int(records[i][0])
