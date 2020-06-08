@@ -81,9 +81,9 @@ def randd():
         else:
             answer_rand = records[i][2][30:40]
 
-        if str(answer_eng) !='' and re.search(answer_eng,context_eng) != None:
+        if str(answer_eng) !='' :
             answer_new = '<strong>'+answer_eng+'</strong>'
-            context_eng_new = re.sub(answer_eng,answer_new ,context_eng)
+            context_eng_new = context_eng.replace(answer_eng,answer_new)
         else:
             context_eng_new = context_eng
         id_edit = int(records[i][0])
