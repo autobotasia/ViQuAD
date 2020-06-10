@@ -6,13 +6,8 @@ import os
 from markupsafe import escape
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
-id_edit = 0
-c_id = 0
-impossible =''
-answer_start = 0
-question =''
+
 DATABASE = 'database/database_train.db'
-contributer_name = ''
 app.secret_key = 'set contributer'
  
 def get_db():
@@ -72,39 +67,30 @@ def random_id():
         while records[i][0] in check:
             i = random.randint(0,len(records)-1)
 
-        id_edit =  records[i][0]
-
+        session['id'] = records[i][0]
         cursor.close()
-        _url = 'http://localhost:6006/random/' + str(id_edit)
+        _url = 'http://localhost:6006/random/' + str(session['id'])
+        print(session)
         return redirect(_url)
         
 @app.route('/random/<ids>',methods=['GET','POST'])
 def randd(ids):
-    global id_edit 
-    global c_id
-    global impossible
-    global answer_start
-    global question
-    global contributer_name
     load = session['load']
-    id_edit = int(ids)
+    id_edit = session['id']
+    contributer_name = session['contributer']
     if request.method == 'GET':
         if load == 1:
             session['load'] = 0
             return redirect('http://localhost:6006/random')
         else:
-            contributer_name = session['contributer']
             cursor = get_db().cursor()
-            print(int(ids))
             sqlite_select_query = """SELECT * from dataset"""
             sqlite_select_query_eng = """SELECT * from dataset_eng """
 
             cursor.execute(sqlite_select_query)
             records = cursor.fetchall()
-
             cursor.execute(sqlite_select_query_eng)
             records_eng = cursor.fetchall()
-
             i = id_edit
             print(records_eng[i][1])
             question_eng = records_eng[i][1]
@@ -131,9 +117,11 @@ def randd(ids):
                 context_eng_new = context_eng.replace(answer_eng,answer_new)
             else:
                 context_eng_new = context_eng
-            id_edit = int(records[i][0])
+
             answer_start = records[i][4]
+            session['answer_start'] = answer_start
             c_id = int(records[i][5])
+            session['c_id'] = c_id
             impossible= records[i][6]
             cursor.close()
             
@@ -143,6 +131,7 @@ def randd(ids):
             answer_edit = None
             context_edit = None
             session['load'] = 1
+
     if request.method == 'POST':
         question_edit = request.form['question_edit']
         answer_edit = request.form['answer_edit']
@@ -157,10 +146,10 @@ def randd(ids):
         if request.form.get('check_answer'):
             answer_edit =''
         
-        data_tuple = (id_edit,question_edit,context_edit,answer_edit,answer_start,c_id,contributer_name)
+        data_tuple = (id_edit,question_edit,context_edit,answer_edit,session['answer_start'],session['c_id'],contributer_name)
         try: 
             cursor.execute(sqlite_insert_with_param, data_tuple)
-        except sqlite3.OperationalError:
+        except sqlite3.IntegrityError:
             db.commit()
             cursor.close()
             session['load'] = 0
