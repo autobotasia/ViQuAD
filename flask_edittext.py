@@ -1,5 +1,5 @@
 import sqlite3
-from flask import g,Flask,request,render_template,redirect,url_for
+from flask import g,Flask,request,render_template,redirect,url_for, session,escape
 import random
 import re
 import os
@@ -13,6 +13,8 @@ answer_start = 0
 question =''
 DATABASE = 'database/database_train.db'
 contributer_name = ''
+app.secret_key = 'set contributer'
+ 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -27,15 +29,16 @@ def close_connection(exception):
         db.close()
 
 
-@app.route('/')
+@app.route('/',methods = ['GET','POST'])
 def index():
+    if request.method == 'POST':
+        session['contributer'] = request.form['contributer']
+        session['load'] = 0
+        print(session)
+        return redirect('http://localhost:6006/random')
     return render_template('index.html')
 
-@app.route('/post/<int:post_id>')
-def show_post(post_id):
-    # show the post with the given id, the id is an integer
-    print(type(post_id))
-    return 'Post %d' % post_id
+
 
 @app.route('/thanks')
 def tks():
@@ -47,7 +50,7 @@ def show_subpath(subpath):
     return 'Subpath %s' % escape(subpath)
 
 
-@app.route('/random/id',methods=['GET','POST'])
+@app.route('/random',methods=['GET','POST'])
 def random_id():
     if request.method == 'GET':
         cursor = get_db().cursor()
@@ -83,63 +86,68 @@ def randd(ids):
     global answer_start
     global question
     global contributer_name
+    load = session['load']
     id_edit = int(ids)
     if request.method == 'GET':
-        cursor = get_db().cursor()
-        print(int(ids))
-        sqlite_select_query = """SELECT * from dataset"""
-        sqlite_select_query_eng = """SELECT * from dataset_eng """
-
-        cursor.execute(sqlite_select_query)
-        records = cursor.fetchall()
-
-        cursor.execute(sqlite_select_query_eng)
-        records_eng = cursor.fetchall()
-
-        i = id_edit
-        print(records_eng[i][1])
-        question_eng = records_eng[i][1]
-        context_eng = records_eng[i][2]
-        answer_eng = records_eng[i][3]
-
-        if str(records[i][3]) == 'None':
-            answer = ''
-            answer_eng =''
+        if load == 1:
+            session['load'] = 0
+            return redirect('http://localhost:6006/random')
         else:
-             answer = str(records[i][3])
-             
+            contributer_name = session['contributer']
+            cursor = get_db().cursor()
+            print(int(ids))
+            sqlite_select_query = """SELECT * from dataset"""
+            sqlite_select_query_eng = """SELECT * from dataset_eng """
 
-        context = str(records[i][2])
-        context_new = str(records[i][2])
-        question = records[i][1]
-        if answer!= '' and re.search(answer,context) != None:
-            answer_rand = answer
-        else:
-            answer_rand = records[i][2][30:40]
+            cursor.execute(sqlite_select_query)
+            records = cursor.fetchall()
 
-        if str(answer_eng) !='' :
-            answer_new = '<strong>'+answer_eng+'</strong>'
-            context_eng_new = context_eng.replace(answer_eng,answer_new)
-        else:
-            context_eng_new = context_eng
-        id_edit = int(records[i][0])
-        answer_start = records[i][4]
-        c_id = int(records[i][5])
-        impossible= records[i][6]
-        cursor.close()
-        
+            cursor.execute(sqlite_select_query_eng)
+            records_eng = cursor.fetchall()
 
-    ####Edit datatrain####
+            i = id_edit
+            print(records_eng[i][1])
+            question_eng = records_eng[i][1]
+            context_eng = records_eng[i][2]
+            answer_eng = records_eng[i][3]
 
-        
-        answer_edit = None
-        context_edit = None
+            if str(records[i][3]) == 'None':
+                answer = ''
+                answer_eng =''
+            else:
+                answer = str(records[i][3])
+                
 
+            context = str(records[i][2])
+            context_new = str(records[i][2])
+            question = records[i][1]
+            if answer!= '' and re.search(answer,context) != None:
+                answer_rand = answer
+            else:
+                answer_rand = records[i][2][30:40]
+
+            if str(answer_eng) !='' :
+                answer_new = '<strong>'+answer_eng+'</strong>'
+                context_eng_new = context_eng.replace(answer_eng,answer_new)
+            else:
+                context_eng_new = context_eng
+            id_edit = int(records[i][0])
+            answer_start = records[i][4]
+            c_id = int(records[i][5])
+            impossible= records[i][6]
+            cursor.close()
+            
+
+        ####Edit datatrain####
+
+            answer_edit = None
+            context_edit = None
+            session['load'] = 1
     if request.method == 'POST':
         question_edit = request.form['question_edit']
         answer_edit = request.form['answer_edit']
         context_edit =request.form['context_edit']
-        contributer_name = request.form['contributer']
+        
         db= get_db()
         cursor = db.cursor()
         sqlite_insert_with_param = """INSERT INTO dataset_correction
@@ -150,11 +158,16 @@ def randd(ids):
             answer_edit =''
         
         data_tuple = (id_edit,question_edit,context_edit,answer_edit,answer_start,c_id,contributer_name)
-        
-        cursor.execute(sqlite_insert_with_param, data_tuple)
+        try: 
+            cursor.execute(sqlite_insert_with_param, data_tuple)
+        except sqlite3.OperationalError:
+            db.commit()
+            cursor.close()
+            session['load'] = 0
+            return ('', 204)
         db.commit()
         cursor.close()
-        #return redirect('http://localhost:6006/random/id')
+        session['load'] = 0
         return ('', 204)
     return render_template('edit_text.html',id_edit = id_edit, edits = answer_rand ,question = question,context = context ,context_new=context_new, answer = answer,question_eng = question_eng,context_eng=context_eng_new,answer_eng=answer_eng, contributer = contributer_name)
     

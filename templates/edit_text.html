@@ -88,7 +88,7 @@
             </div>
             <input type="checkbox" name="check_answer" id="answer_ok" value="ok">
             <label for="answer_ok"> <strong>No update answer for database</strong> </label>
-            <p> <strong> Contributer Name: </strong><input type="text" name="contributer" value="{{contributer}}" required></p>
+            <p> <strong> Contributer Name: </strong>{{contributer}}</p>
             
             <p></p>
             <input type="submit" class="btn btn-success"  value = "SUBMIT" />
@@ -140,7 +140,7 @@
             
             function removeCustomAlert() {
                 document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
-                window.location.replace("http://localhost:6006/random/id")
+                window.location.replace("http://localhost:6006/random")
             }
             function ful(){
             alert('Alert this pages');
