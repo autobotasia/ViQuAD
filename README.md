@@ -32,7 +32,7 @@ Finally, Use `flask_edittext.py` to Edit data wrong
 
 ### Demo link:
 
-Link: "http://ai.nccsoft.vn:6006/random"
+Link: "http://ai.nccsoft.vn:6006/random/id"
 
 Purpose: edit data (Here is: `Context` and `Quesion`) correct if translated wrong or not reasonable
 
