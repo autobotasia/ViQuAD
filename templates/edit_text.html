@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ViQuAD Dataset Edit</title>
-    <link href="static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
     <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <style class="cp-pen-styles">
@@ -40,12 +40,12 @@
     </style>
 </head>
 
-<body>
+<body >
+    
     <div class="container">
         <h1>Please Check and Edit Text</h1>
         <br>
-
-        <div class="data_edit"><strong><h3>DATA:</h3></strong>
+        <div class="data_edit"><strong><h3>DATA: {{contributer}} {{id_edit}}</h3></strong>
 
             <div><strong>ID: </span> </strong> {{ id_edit }} </div>
             <p></p>
@@ -68,7 +68,7 @@
             <div><strong>Answer_Eng: </strong>{{ answer_eng }}</div>
 
         </div>
-        <form action="" method="post">
+        <form action="" method="post" onsubmit ="alert('THANKS FOR CONTRIBUTED');">
             <p></p>
             <div class="form-group">
                 <p><strong>Edit Question</strong></p>   
@@ -88,76 +88,133 @@
             </div>
             <input type="checkbox" name="check_answer" id="answer_ok" value="ok">
             <label for="answer_ok"> <strong>No update answer for database</strong> </label>
-            <p></p>
-            <input class="btn btn-success" type="submit" value="SUBMIT">
-        </form>
-    </div>
-    <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script>
-        //my jQuery plugin
-        (function ($) {
-            $.fn.selectBars = function (affectedText, targetText, selectionChangeEventHandler) {
-                var isDragging = false;
-                var draggingHandle = null;
-
-                $(affectedText + ":contains('" + targetText + "')").html(function (_, html) {
-                    return html.replace(targetText, '<span class="sel-handle sel-s"></span><span class="sel-mid">' + targetText + '</span><span class="sel-handle sel-e"></span>');
-                });
-
-                $(affectedText).attr('data-selected', targetText);
-                selectionChangeEventHandler.call(this);
-
-                $(affectedText).lettering('letters');
-
-                //start dragging
-                $(affectedText).on('mousedown', '.sel-handle', function (event) {
-                    draggingHandle = $(this);
-                    isDragging = true;
-                });
-
-                //end the dragging
-                $(document).mouseup(function (event) {
-                    isDragging = false;
-                });
-
-                //detect range change
-                $('.char').mouseover(function (event) {
-                    //check to ensure order and dragging
-                    if (isDragging && !(draggingHandle.attr('class') == $('.sel-e').attr('class') && $(this).nextAll('.sel-s').length !== 0) && !(draggingHandle.attr('class') == $('.sel-s').attr('class') && $(this).prevAll('.sel-e').length !== 0)) {
-
-                        draggingHandle.remove();
-                        $(this).before(draggingHandle);
-                        $('.sel-mid').contents().unwrap();
-                        $('.sel-s').each(function () {
-                            $(affectedText).attr('data-selected', $(this).nextUntil(".sel-e").text());
-                            selectionChangeEventHandler.call(this);
-                            $(this).nextUntil(".sel-e").wrapAll('<span class="sel-mid" />');
-                        });
-
-                        //text selection magic =)
-                        $(affectedText).append('<input style="display: hidden"/>');
-                        // $('input').focus();
-                        $(affectedText + ' input').remove();
-                    }
-                });
-            };
-        }(jQuery));
-
-        //CUSTOM MINIFIED LETTERING.JS VERSION || DEPENDENCY
-        //
-        //  $.fn.lettering 1.0  -- MIT/GPL Licensed - More info: http://github.com/maranomynet/Lettering.js/
-        (function (e) { var i = e.fn.lettering = function (d, f) { var b = e.extend({}, m, j[d] || d || j.letters, f); return this.each(function () { b.prep && b.prep(this); k.call(this, b); if (b.num) { e(this).find(b.tag + '.' + b.cl.replace(/\s/g, '.')).addClass(function (a) { return b.cl + (a + 1) }) } }) }, k = function (a) { var d = this, f = d.nodeType, b = a.split ? e(d).text().split(a.split) : f == 3 ? d.nodeValue.split('') : f == 1 ? d.childNodes : [], g, h = [], l = b.length; while (l--) { var c = b[l]; if (c) { if (typeof c == 'string') { g = ''; if (a.addAttr) { c = a.matAttr ? a.mapAttr.call(c) : c; g = ' data-cont="' + (c == '"' ? '&quot;' : c) + '"' } h.push('<span class="' + a.cl + '"' + g + '>' + c + '</span>' + (a.after || '')) } else { k.call(c, a) } } } h.length && e(d)[a.split ? 'html' : 'replaceWith'](h.reverse().join('')) }, j = i.presets = { letters: {}, kern: { addAttr: !0, num: !1 }, words: { split: /\s+/, cl: 'word', after: ' ' }, lines: { cl: 'line', prep: function (a) { this.split = '|' + (new Date()).getTime() + '|'; e(a).find('br').replaceWith(this.split) } } }, m = i.defaults = { tag: 'span', cl: 'char', num: !0 } })(jQuery);
-        var edits = '{{edits}}';
-        $(document).ready(function () {
-            $(".full-text").selectBars('.full-text', edits, function () {
-                var data = $('.full-text').attr('data-selected');
-                console.log(data, 'data');
-                document.getElementById('data').value = data;
-                $('.selected-text p').text();
-            });
+            <p> <strong> Contributer Name: </strong><input type="text" name="contributer" value="{{contributer}}" required></p>
             
-        });
-    </script>
+            <p></p>
+            <input type="submit" class="btn btn-success"  value = "SUBMIT" />
+            </form>
+            <script>
+                var ALERT_TITLE = "";
+                var ALERT_BUTTON_TEXT = "OK";
+
+                if(document.getElementById) {
+                window.alert = function(txt) {
+                    createCustomAlert(txt);
+                }
+            }
+
+            function createCustomAlert(txt) {
+                d = document;
+
+                if(d.getElementById("modalContainer")) return;
+
+                mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
+                mObj.id = "modalContainer";
+                mObj.style.height = d.documentElement.scrollHeight + "px";
+                
+                alertObj = mObj.appendChild(d.createElement("div"));
+                alertObj.id = "alertBox";
+                if(d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+                alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)/2 + "px";
+                alertObj.style.visiblity="visible";
+
+                // h1 = alertObj.appendChild(d.createElement("h1"));
+                // h1.appendChild(d.createTextNode(ALERT_TITLE));
+
+                msg = alertObj.appendChild(d.createElement("p"));
+                //msg.appendChild(d.createTextNode(txt));
+                msg.innerHTML = txt;
+
+                btn = alertObj.appendChild(d.createElement("a"));
+                btn.id = "closeBtn";
+                btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+                btn.href = "#";
+                btn.focus();
+                btn.onclick = function() { 
+                    
+                    removeCustomAlert(); return flase;}
+
+                alertObj.style.display = "block";
+                
+            }
+            
+            function removeCustomAlert() {
+                document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+                window.location.replace("http://localhost:6006/random/id")
+            }
+            function ful(){
+            alert('Alert this pages');
+            }
+       </script>
+
+                    </form>
+                </div>
+                <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+                <script>
+                    //my jQuery plugin
+                    (function ($) {
+                        $.fn.selectBars = function (affectedText, targetText, selectionChangeEventHandler) {
+                            var isDragging = false;
+                            var draggingHandle = null;
+
+                            $(affectedText + ":contains('" + targetText + "')").html(function (_, html) {
+                                return html.replace(targetText, '<span class="sel-handle sel-s"></span><span class="sel-mid">' + targetText + '</span><span class="sel-handle sel-e"></span>');
+                            });
+
+                            $(affectedText).attr('data-selected', targetText);
+                            selectionChangeEventHandler.call(this);
+
+                            $(affectedText).lettering('letters');
+
+                            //start dragging
+                            $(affectedText).on('mousedown', '.sel-handle', function (event) {
+                                draggingHandle = $(this);
+                                isDragging = true;
+                            });
+
+                            //end the dragging
+                            $(document).mouseup(function (event) {
+                                isDragging = false;
+                            });
+
+                            //detect range change
+                            $('.char').mouseover(function (event) {
+                                //check to ensure order and dragging
+                                if (isDragging && !(draggingHandle.attr('class') == $('.sel-e').attr('class') && $(this).nextAll('.sel-s').length !== 0) && !(draggingHandle.attr('class') == $('.sel-s').attr('class') && $(this).prevAll('.sel-e').length !== 0)) {
+
+                                    draggingHandle.remove();
+                                    $(this).before(draggingHandle);
+                                    $('.sel-mid').contents().unwrap();
+                                    $('.sel-s').each(function () {
+                                        $(affectedText).attr('data-selected', $(this).nextUntil(".sel-e").text());
+                                        selectionChangeEventHandler.call(this);
+                                        $(this).nextUntil(".sel-e").wrapAll('<span class="sel-mid" />');
+                                    });
+
+                                    //text selection magic =)
+                                    $(affectedText).append('<input style="display: hidden"/>');
+                                    // $('input').focus();
+                                    $(affectedText + ' input').remove();
+                                }
+                            });
+                        };
+                    }(jQuery));
+
+                    //CUSTOM MINIFIED LETTERING.JS VERSION || DEPENDENCY
+                    //
+                    //  $.fn.lettering 1.0  -- MIT/GPL Licensed - More info: http://github.com/maranomynet/Lettering.js/
+                    (function (e) { var i = e.fn.lettering = function (d, f) { var b = e.extend({}, m, j[d] || d || j.letters, f); return this.each(function () { b.prep && b.prep(this); k.call(this, b); if (b.num) { e(this).find(b.tag + '.' + b.cl.replace(/\s/g, '.')).addClass(function (a) { return b.cl + (a + 1) }) } }) }, k = function (a) { var d = this, f = d.nodeType, b = a.split ? e(d).text().split(a.split) : f == 3 ? d.nodeValue.split('') : f == 1 ? d.childNodes : [], g, h = [], l = b.length; while (l--) { var c = b[l]; if (c) { if (typeof c == 'string') { g = ''; if (a.addAttr) { c = a.matAttr ? a.mapAttr.call(c) : c; g = ' data-cont="' + (c == '"' ? '&quot;' : c) + '"' } h.push('<span class="' + a.cl + '"' + g + '>' + c + '</span>' + (a.after || '')) } else { k.call(c, a) } } } h.length && e(d)[a.split ? 'html' : 'replaceWith'](h.reverse().join('')) }, j = i.presets = { letters: {}, kern: { addAttr: !0, num: !1 }, words: { split: /\s+/, cl: 'word', after: ' ' }, lines: { cl: 'line', prep: function (a) { this.split = '|' + (new Date()).getTime() + '|'; e(a).find('br').replaceWith(this.split) } } }, m = i.defaults = { tag: 'span', cl: 'char', num: !0 } })(jQuery);
+                    var edits = '{{edits}}';
+                    $(document).ready(function () {
+                        $(".full-text").selectBars('.full-text', edits, function () {
+                            var data = $('.full-text').attr('data-selected');
+                            console.log(data, 'data');
+                            document.getElementById('data').value = data;
+                            $('.selected-text p').text();
+                        });
+                        
+                    });
+                </script>
     <script type="text/javascript">
 
         var _gaq = _gaq || [];
