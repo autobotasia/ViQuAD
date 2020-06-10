@@ -30,6 +30,10 @@ Finally, Use `flask_edittext.py` to Edit data wrong
 
 ## Use Tool
 
+### Demo link:
+
+Link: "http://ai.nccsoft.vn:6006/random"
+
 Purpose: edit data (Here is: `Context` and `Quesion`) correct if translated wrong or not reasonable
 
 After run `flask_edittext.py`
