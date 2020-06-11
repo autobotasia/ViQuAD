@@ -1,9 +1,10 @@
 import sqlite3
-from flask import g,Flask,request,render_template,redirect,url_for, session,escape
+from flask import g,Flask,request,render_template,redirect,url_for, session,escape,jsonify
 import random
 import re
 import os
 from markupsafe import escape
+import json
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
 
@@ -16,6 +17,18 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+def find_location(_text,_context,_answer_start_vi):
+    locate = [m.start() for m in re.finditer(_text,_context)]
+    if len(locate) == 1:
+        return locate[0]
+    else:
+        test = abs(locate[0]-_answer_start_vi)
+
+        for i in range(len(locate)-1):
+            if test > abs(locate[i+1]-_answer_start_vi):
+                test = abs(locate[i+1]-_answer_start_vi)
+                locate_start = locate[i+1]
+    return locate_start
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -34,15 +47,10 @@ def index():
     return render_template('index.html')
 
 
-
 @app.route('/thanks')
 def tks():
     return render_template('thanks.html')
 
-@app.route('/path/<path:subpath>')
-def show_subpath(subpath):
-    # show the subpath after /path/
-    return 'Subpath %s' % escape(subpath)
 
 
 @app.route('/random',methods=['GET','POST'])
@@ -76,7 +84,7 @@ def random_id():
 @app.route('/random/<ids>',methods=['GET','POST'])
 def randd(ids):
     load = session['load']
-    id_edit = session['id']
+    id_edit = int(ids)
     contributer_name = session['contributer']
     if request.method == 'GET':
         if load == 1:
@@ -99,18 +107,21 @@ def randd(ids):
 
             if str(records[i][3]) == 'None':
                 answer = ''
+                session['answer'] = ''
                 answer_eng =''
             else:
                 answer = str(records[i][3])
+                session['answer'] = str(records[i][3])
                 
 
             context = str(records[i][2])
             context_new = str(records[i][2])
             question = records[i][1]
             if answer!= '' and re.search(answer,context) != None:
-                answer_rand = answer
+                session['answer_rand'] = answer
             else:
-                answer_rand = records[i][2][30:40]
+                locate = int(len(records[i][2])//2)
+                session['answer_rand'] = records[i][2][(locate-10):(locate+10)]
 
             if str(answer_eng) !='' :
                 answer_new = '<strong>'+answer_eng+'</strong>'
@@ -124,29 +135,34 @@ def randd(ids):
             session['c_id'] = c_id
             impossible= records[i][6]
             cursor.close()
+            #print(request.form['location_start'])
             
-
         ####Edit datatrain####
 
             answer_edit = None
             context_edit = None
             session['load'] = 1
-
+            
     if request.method == 'POST':
         question_edit = request.form['question_edit']
         answer_edit = request.form['answer_edit']
         context_edit =request.form['context_edit']
-        
+        #print(request.form['location_start'],request.form['location_end'])
+
         db= get_db()
         cursor = db.cursor()
         sqlite_insert_with_param = """INSERT INTO dataset_correction
                           (dataset_id ,question, context, answer, answer_start, c_id, contributer) 
                           VALUES (?, ?, ?, ?, ?, ?, ?)"""
 
-        if request.form.get('check_answer'):
+        if (request.form['answer_edit'] == session['answer_rand']) & (session['answer'] == '') : 
             answer_edit =''
+            answer_start_vi = ''
+        else:
+            answer_start_vi = find_location(answer_edit,context_edit,session['answer_start'])
         
-        data_tuple = (id_edit,question_edit,context_edit,answer_edit,session['answer_start'],session['c_id'],contributer_name)
+
+        data_tuple = (id_edit,question_edit,context_edit,answer_edit,answer_start_vi,session['c_id'],contributer_name)
         try: 
             cursor.execute(sqlite_insert_with_param, data_tuple)
         except sqlite3.IntegrityError:
@@ -158,7 +174,7 @@ def randd(ids):
         cursor.close()
         session['load'] = 0
         return ('', 204)
-    return render_template('edit_text.html',id_edit = id_edit, edits = answer_rand ,question = question,context = context ,context_new=context_new, answer = answer,question_eng = question_eng,context_eng=context_eng_new,answer_eng=answer_eng, contributer = contributer_name)
+    return render_template('edit_text.html',id_edit = id_edit, edits = session['answer_rand'] ,question = question,context = context ,context_new=context_new, answer = answer,question_eng = question_eng,context_eng=context_eng_new,answer_eng=answer_eng, contributer = contributer_name, datafull = context_edit)
     
 
 if __name__ == "__main__":
