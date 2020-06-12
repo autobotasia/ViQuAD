@@ -30,6 +30,8 @@ def find_location(_text,_context,_answer_start_vi):
                 locate_start = locate[i+1]
     return locate_start
 
+
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -69,17 +71,24 @@ def random_id():
 
         i = random.randint(0,len(records)-1)
         check = []
-
+        check_all = []
         for j in range(len(ids_edit)):
             check.append(ids_edit[j][0])
-        while records[i][0] in check:
-            i = random.randint(0,len(records)-1)
 
-        session['id'] = records[i][0]
-        cursor.close()
-        _url = 'http://localhost:6006/random/' + str(session['id'])
-        print(session)
-        return redirect(_url)
+        for k in range(len(records)):
+            check_all.append(records[k][0])
+
+        if check == check_all:
+            return redirect('http://localhost:6006/thanks')
+        else:
+            while records[i][0] in check:
+                i = random.randint(0,len(records)-1)
+
+            session['id'] = records[i][0]
+            cursor.close()
+            _url = 'http://localhost:6006/random/' + str(session['id'])
+            print(session)
+            return redirect(_url)
         
 @app.route('/random/<ids>',methods=['GET','POST'])
 def randd(ids):
